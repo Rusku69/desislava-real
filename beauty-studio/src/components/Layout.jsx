@@ -1,52 +1,56 @@
-﻿import { useEffect, useState } from 'react'
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
-import { services } from '../data/services'
-import stephenType from '../assets/StephenType.otf'
-import abramoRegular from '../assets/AbramoRegular.otf'
-import forumRegular from '../assets/Forum-Regular.ttf'
-import centuryExpandedRegular from '../assets/Century Expanded Regular.otf'
+﻿import { useEffect, useState } from "react";
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { services } from "../data/services";
+import stephenType from "../assets/StephenType.otf";
+import abramoRegular from "../assets/AbramoRegular.otf";
+import forumRegular from "../assets/Forum-Regular.ttf";
+import centuryExpandedRegular from "../assets/Century Expanded Regular.otf";
 
 const navItems = [
-  { to: '/', label: 'За нас' },
-  { to: '/salon', label: 'Салон' },
-  { to: '/technology', label: 'Технология' },
-  { to: '/offers', label: 'Отстъпки' }
-]
+  { to: "/", label: "За нас" },
+  { to: "/salon", label: "Салон" },
+  { to: "/technology", label: "Технология" },
+  { to: "/offers", label: "Отстъпки" },
+];
 
-const galleryItem = { to: '/gallery', label: 'Галерия' }
+const galleryItem = { to: "/gallery", label: "Галерия" };
 
 export default function Layout() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isServicesOpen, setIsServicesOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-  const location = useLocation()
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 50)
-    onScroll()
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    const onScroll = () => setIsScrolled(window.scrollY > 50);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
-    setIsMenuOpen(false)
-    setIsServicesOpen(false)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [location.pathname])
+    setIsMenuOpen(false);
+    setIsServicesOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location.pathname]);
 
-  const navLinkClass = ({ isActive }) => `nav-link${isActive ? ' active' : ''}`
-  const mobileNavLinkClass = ({ isActive }) => `mobile-nav-link${isActive ? ' active' : ''}`
-  const ctaClass = ({ isActive }) => `nav-cta${isActive ? ' active' : ''}`
-  const mobileCtaClass = ({ isActive }) => `mobile-nav-cta${isActive ? ' active' : ''}`
-  const isServicesPage = location.pathname.startsWith('/services')
-  const isOffersPage = location.pathname === '/offers'
-  const pageClass = isServicesPage ? 'services-page' : ''
-  const footerClass = `footer${isServicesPage ? ' footer-services' : ''}${isOffersPage ? ' footer-offers' : ''}`
-  const servicesActive = location.pathname.startsWith('/services/')
+  const navLinkClass = ({ isActive }) => `nav-link${isActive ? " active" : ""}`;
+  const mobileNavLinkClass = ({ isActive }) =>
+    `mobile-nav-link${isActive ? " active" : ""}`;
+  const ctaClass = ({ isActive }) => `nav-cta${isActive ? " active" : ""}`;
+  const mobileCtaClass = ({ isActive }) =>
+    `mobile-nav-cta${isActive ? " active" : ""}`;
+  const isServicesPage = location.pathname.startsWith("/services");
+  const isOffersPage = location.pathname === "/offers";
+  const pageClass = isServicesPage ? "services-page" : "";
+  const footerClass = `footer${isServicesPage ? " footer-services" : ""}${
+    isOffersPage ? " footer-offers" : ""
+  }`;
+  const servicesActive = location.pathname.startsWith("/services/");
   const serviceLinks = services.map((service) => ({
     to: `/services/${service.id}`,
-    label: service.title
-  }))
+    label: service.title,
+  }));
 
   return (
     <div className={`app ${pageClass}`}>
@@ -100,7 +104,7 @@ export default function Layout() {
         .container {
           max-width: 1200px;
           margin: 0 auto;
-          padding: 0 20px;
+          padding: 0 8px;
         }
         
         .section-padding {
@@ -1447,6 +1451,12 @@ export default function Layout() {
           align-items: center;
           text-align: center;
         }
+
+        @media (max-width: 768px) {
+            .home-hero .about-content {
+               padding-right: 0;
+             }
+        }
         
         /* Медиа заявки */
         @media (min-width: 768px) {
@@ -1458,11 +1468,16 @@ export default function Layout() {
             display: none;
           }
           
+          .container {
+             padding: 0px;
+          }
+          
           .about-content {
             grid-template-columns: 1fr 2fr;
             text-align: right;
+            padding-right: 0;
           }
-          
+
           .about-image {
             max-width: 250px;
           }
@@ -1577,12 +1592,16 @@ export default function Layout() {
         }
       `}</style>
 
-      <header className={`header${isScrolled ? ' scrolled' : ''}`} id="header">
+      <header className={`header${isScrolled ? " scrolled" : ""}`} id="header">
         <div className="container header-content">
           <Link to="/" className="logo">
-            <img src="/textlogo.png" alt="Desi Slava Studio" className="logo-image" />
+            <img
+              src="/textlogo.png"
+              alt="Desi Slava Studio"
+              className="logo-image"
+            />
           </Link>
-          
+
           <nav className="desktop-nav">
             {navItems.map((item) => (
               <NavLink key={item.to} to={item.to} className={navLinkClass} end>
@@ -1591,21 +1610,27 @@ export default function Layout() {
             ))}
             <div className="services-nav">
               <NavLink
-                to={serviceLinks[0]?.to || '/services/epilation'}
+                to={serviceLinks[0]?.to || "/services/epilation"}
                 className={({ isActive }) =>
-                  `nav-link services-trigger${servicesActive || isActive ? ' active' : ''}`
+                  `nav-link services-trigger${
+                    servicesActive || isActive ? " active" : ""
+                  }`
                 }
                 end
               >
                 Услуги
               </NavLink>
-              <div className="services-dropdown" role="menu" aria-label="Услуги">
+              <div
+                className="services-dropdown"
+                role="menu"
+                aria-label="Услуги"
+              >
                 {serviceLinks.map((service) => (
                   <NavLink
                     key={service.to}
                     to={service.to}
                     className={({ isActive }) =>
-                      `services-dropdown-link${isActive ? ' active' : ''}`
+                      `services-dropdown-link${isActive ? " active" : ""}`
                     }
                   >
                     {service.label}
@@ -1616,27 +1641,36 @@ export default function Layout() {
             <NavLink to={galleryItem.to} className={navLinkClass} end>
               {galleryItem.label}
             </NavLink>
-            <NavLink to="/contact" className={ctaClass}>Запиши час</NavLink>
+            <NavLink to="/contact" className={ctaClass}>
+              Запиши час
+            </NavLink>
           </nav>
-          
-          <button 
+
+          <button
             className="mobile-menu-btn"
             onClick={() => setIsMenuOpen((open) => !open)}
             aria-label="Меню"
           >
-            {isMenuOpen ? '✕' : '☰'}
+            {isMenuOpen ? "✕" : "☰"}
           </button>
         </div>
-        
+
         {isMenuOpen && (
           <div className="mobile-menu">
             {navItems.map((item) => (
-              <NavLink key={item.to} to={item.to} className={mobileNavLinkClass} end>
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={mobileNavLinkClass}
+                end
+              >
                 {item.label}
               </NavLink>
             ))}
             <button
-              className={`mobile-services-trigger${isServicesOpen ? ' open' : ''}`}
+              className={`mobile-services-trigger${
+                isServicesOpen ? " open" : ""
+              }`}
               onClick={() => setIsServicesOpen((open) => !open)}
               aria-expanded={isServicesOpen}
               type="button"
@@ -1651,7 +1685,7 @@ export default function Layout() {
                     key={service.to}
                     to={service.to}
                     className={({ isActive }) =>
-                      `mobile-services-link${isActive ? ' active' : ''}`
+                      `mobile-services-link${isActive ? " active" : ""}`
                     }
                   >
                     {service.label}
@@ -1662,7 +1696,9 @@ export default function Layout() {
             <NavLink to={galleryItem.to} className={mobileNavLinkClass} end>
               {galleryItem.label}
             </NavLink>
-            <NavLink to="/contact" className={mobileCtaClass}>Запиши час</NavLink>
+            <NavLink to="/contact" className={mobileCtaClass}>
+              Запиши час
+            </NavLink>
           </div>
         )}
       </header>
@@ -1681,17 +1717,19 @@ export default function Layout() {
             </div>
             <div className="footer-text">
               <p className="footer-info">
-                Професионални козметични процедури с внимание към всеки детайл и индивидуален подход. 
-                Работим с модерна технология и безопасни методи, за да постигнем естествени и трайни резултати.
+                Професионални козметични процедури с внимание към всеки детайл и
+                индивидуален подход. Работим с модерна технология и безопасни
+                методи, за да постигнем естествени и трайни резултати.
               </p>
             </div>
-            
+
             <div className="footer-bottom">
-              © {new Date().getFullYear()} Desi Slava Studio. Всички права запазени.
+              © {new Date().getFullYear()} Desi Slava Studio. Всички права
+              запазени.
             </div>
           </div>
         </div>
       </footer>
     </div>
-  )
+  );
 }

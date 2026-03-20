@@ -1067,10 +1067,10 @@ export default function Layout() {
         /* Галерия секция */
         .gallery-section {
           padding: 80px 0;
-          background-image: url('/kaksi.png');
-          background-size: cover;
+          background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 7%, rgba(255, 255, 255, 0) 93%, rgba(255, 255, 255, 0.28) 100%), url('/kaksi.png'), url('/kaksi.png');
+          background-size: cover, contain, cover;
           background-repeat: no-repeat;
-          background-position: center;
+          background-position: center, center top, center top;
           min-height: 100vh;
         }
 
@@ -1086,7 +1086,7 @@ export default function Layout() {
         .gallery-stage {
           position: relative;
           width: 100%;
-          min-height: clamp(520px, 72vh, 860px);
+          min-height: clamp(440px, 64vh, 720px);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -1094,9 +1094,9 @@ export default function Layout() {
 
         .gallery-target {
           position: relative;
-          width: min(66vw, 320px);
+          width: min(52vw, 240px);
           aspect-ratio: 1 / 1;
-          margin: 56px 0 0;
+          margin: 80px 0 0;
           overflow: visible;
           display: flex;
           align-items: center;
@@ -1171,11 +1171,11 @@ export default function Layout() {
         }
 
         .gallery-nav-prev {
-          left: 12px;
+          left: -60px;
         }
 
         .gallery-nav-next {
-          right: 12px;
+          right: -60px;
         }
 
         @media (max-width: 767px) {
@@ -1265,28 +1265,28 @@ export default function Layout() {
           }
 
           .gallery-stage {
-            min-height: clamp(420px, 62vh, 620px);
+            min-height: clamp(350px, 54vh, 500px);
             justify-content: center;
             padding-right: 0;
           }
 
           .gallery-target {
-            width: min(76vw, 290px);
-            margin-top: 56px;
+            width: min(62vw, 220px);
+            margin-top: 80px;
           }
 
           .gallery-nav {
-            width: 42px;
-            height: 42px;
-            font-size: 26px;
+            width: 38px;
+            height: 38px;
+            font-size: 22px;
           }
 
           .gallery-nav-prev {
-            left: 8px;
+            left: -48px;
           }
 
           .gallery-nav-next {
-            right: 8px;
+            right: -48px;
           }
         }
         
@@ -1616,21 +1616,21 @@ export default function Layout() {
           }
           
           .gallery-stage {
-            min-height: clamp(620px, 80vh, 980px);
+            min-height: clamp(520px, 70vh, 820px);
             justify-content: center;
             padding-right: 0;
           }
 
           .gallery-target {
-            width: min(44vw, 420px);
+            width: min(32vw, 300px);
           }
 
           .gallery-nav-prev {
-            left: 12px;
+            left: -68px;
           }
 
           .gallery-nav-next {
-            right: 12px;
+            right: -68px;
           }
           
           .contact-content {
@@ -1669,7 +1669,7 @@ export default function Layout() {
           }
 
           .gallery-target {
-            width: min(38vw, 500px);
+            width: min(28vw, 340px);
           }
           
           .map-container-large {

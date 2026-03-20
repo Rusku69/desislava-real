@@ -1,5 +1,6 @@
-﻿import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
+import RouteSeo from './components/RouteSeo'
 import Home from './pages/Home'
 import Salon from './pages/Salon'
 import ServiceDetail from './pages/ServiceDetail'
@@ -12,6 +13,7 @@ import NotFound from './pages/NotFound'
 function App() {
   return (
     <BrowserRouter>
+      <RouteSeo />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />

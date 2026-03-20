@@ -497,7 +497,7 @@ export default function Layout() {
           box-shadow: var(--shadow-hover);
           text-align: center;
           max-width: 700px;
-          width: min(700px, 92vw);
+          width: min(100%, 700px);
           margin-left: auto;
           margin-right: 0;
           margin-top: 110px;
@@ -1067,10 +1067,10 @@ export default function Layout() {
         /* Галерия секция */
         .gallery-section {
           padding: 80px 0;
-          background-image: url('/galleryback.png');
+          background-image: url('/kaksi.png');
           background-size: cover;
           background-repeat: no-repeat;
-          background-position: left center;
+          background-position: center;
           min-height: 100vh;
         }
 
@@ -1094,14 +1094,15 @@ export default function Layout() {
 
         .gallery-target {
           position: relative;
-          width: min(80vw, 420px);
+          width: min(66vw, 320px);
           aspect-ratio: 1 / 1;
-          margin: 0;
+          margin: 56px 0 0;
           overflow: visible;
           display: flex;
           align-items: center;
           justify-content: center;
           touch-action: pan-y;
+          z-index: 1;
         }
 
         .gallery-photo-shell {
@@ -1178,17 +1179,100 @@ export default function Layout() {
         }
 
         @media (max-width: 767px) {
+          .home-hero {
+            background-position: center;
+          }
+
+          .home-hero .about-content {
+            justify-content: center;
+            padding-right: 0;
+          }
+
+          .home-hero .about-text {
+            width: 100%;
+            margin: 110px auto 0;
+            padding: 12px 14px;
+          }
+
+          .salon-section {
+            padding-top: 32px;
+          }
+
+          .salon-content {
+            gap: 24px;
+            padding-top: 0;
+          }
+
+          .salon-image {
+            order: -1;
+            width: 100%;
+            max-width: 420px;
+          }
+
+          .salon-text {
+            width: 100%;
+            max-width: 420px;
+            padding: 28px 20px;
+          }
+
+          .technology-section {
+            background-image: url('/techtel.png');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            min-height: 110vh;
+          }
+
+          .tech-copy {
+            margin-top: 136px;
+          }
+
+          .tech-video-card {
+            width: 100%;
+            justify-content: center;
+          }
+
+          .offers-section {
+            padding: 112px 0 48px;
+            min-height: auto;
+            background-image: url('/ots.png');
+            background-position: center top;
+            background-size: cover;
+            background-repeat: no-repeat;
+          }
+
+          .offers-section .container {
+            max-width: 420px;
+          }
+
+          .offers-grid {
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin-top: 112px;
+          }
+
+          .offer-item {
+            width: min(100%, 360px);
+            height: min(100%, 360px);
+          }
+
           .gallery-section {
+            background-image: url('/kaksi1.png');
+            background-size: cover;
             background-position: center top;
             padding: 56px 0 40px;
           }
 
           .gallery-stage {
             min-height: clamp(420px, 62vh, 620px);
+            justify-content: center;
+            padding-right: 0;
           }
 
           .gallery-target {
-            width: min(90vw, 360px);
+            width: min(76vw, 290px);
+            margin-top: 56px;
           }
 
           .gallery-nav {
@@ -1533,10 +1617,12 @@ export default function Layout() {
           
           .gallery-stage {
             min-height: clamp(620px, 80vh, 980px);
+            justify-content: center;
+            padding-right: 0;
           }
 
           .gallery-target {
-            width: min(58vw, 560px);
+            width: min(44vw, 420px);
           }
 
           .gallery-nav-prev {
@@ -1583,7 +1669,7 @@ export default function Layout() {
           }
 
           .gallery-target {
-            width: min(48vw, 640px);
+            width: min(38vw, 500px);
           }
           
           .map-container-large {

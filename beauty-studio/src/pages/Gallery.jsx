@@ -1,4 +1,7 @@
-﻿import { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+
+const SWIPE_THRESHOLD_DESKTOP = 50
+const SWIPE_THRESHOLD_MOBILE = 28
 
 const galleryImages = [
   { src: '/gallery1.png', alt: 'Галерия 1', ratio: 983 / 1310, fit: 'cover', scale: 1.06, posY: '50%' },
@@ -35,8 +38,13 @@ export default function Gallery() {
 
   const handleTouchEnd = () => {
     if (touchStartX.current === null) return
-    if (touchDeltaX.current <= -50) showNext()
-    if (touchDeltaX.current >= 50) showPrev()
+
+    const threshold = window.matchMedia('(max-width: 767px)').matches
+      ? SWIPE_THRESHOLD_MOBILE
+      : SWIPE_THRESHOLD_DESKTOP
+
+    if (touchDeltaX.current <= -threshold) showNext()
+    if (touchDeltaX.current >= threshold) showPrev()
     touchStartX.current = null
     touchDeltaX.current = 0
   }

@@ -14,6 +14,10 @@ const navItems = [
 ];
 
 const galleryItem = { to: "/gallery", label: "Галерия" };
+const SOCIAL_LINKS = {
+  facebook: "https://www.facebook.com/desislava.stoichkova.98/",
+  instagram: "https://www.instagram.com/desislavastudio/",
+};
 
 export default function Layout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -923,24 +927,25 @@ export default function Layout() {
         }
 
         .technology-layout {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 26px;
-          align-items: start;
-          max-width: 920px;
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          max-width: 980px;
           margin: 0 auto;
+          width: 100%;
         }
 
         .tech-video-card {
           padding: 0;
           display: flex;
           justify-content: center;
-          width: fit-content;
-          max-width: none;
+          width: 100%;
+          max-width: 100%;
           background: transparent;
           border: none;
           box-shadow: none;
           overflow: visible;
+          position: static;
         }
 
         .tech-video-link {
@@ -967,15 +972,18 @@ export default function Layout() {
         .tech-right {
           display: flex;
           flex-direction: column;
-          gap: 16px;
-          position: relative;
+          gap: 18px;
+          width: min(100%, 720px);
+          align-items: flex-start;
+          margin-top: clamp(44px, 7vw, 110px);
+          margin-left: clamp(8px, 2vw, 28px);
         }
 
         .tech-copy {
-          padding: 20px 22px;
+          padding: clamp(20px, 2.5vw, 30px);
           width: 100%;
-          max-width: 700px;
-          margin-top: 96px;
+          max-width: 720px;
+          margin: 0;
         }
 
         .tech-summary {
@@ -1215,6 +1223,13 @@ export default function Layout() {
             padding: 28px 20px;
           }
 
+          .service-detail-card {
+            width: min(100%, 420px);
+            margin-left: auto;
+            margin-right: auto;
+            padding: 30px 22px;
+          }
+
           .technology-section {
             background-image: url('/techtel.png');
             background-position: center;
@@ -1224,7 +1239,14 @@ export default function Layout() {
           }
 
           .tech-copy {
-            margin-top: 136px;
+            margin: 0;
+          }
+
+          .tech-right {
+            width: min(100%, 420px);
+            align-items: center;
+            margin-top: 68px;
+            margin-left: 0;
           }
 
           .tech-video-card {
@@ -1239,6 +1261,80 @@ export default function Layout() {
             background-position: center top;
             background-size: cover;
             background-repeat: no-repeat;
+          }
+
+          .salon-section,
+          .technology-section,
+          .offers-section,
+          .gallery-section,
+          .service-detail,
+          .contact-section {
+            position: relative;
+            overflow: hidden;
+          }
+
+          .salon-section::after,
+          .technology-section::after,
+          .gallery-section::after,
+          .contact-section::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 44px;
+            background: linear-gradient(
+              to bottom,
+              rgba(20, 54, 37, 0) 0%,
+              rgba(20, 54, 37, 0.35) 45%,
+              #143625 100%
+            );
+            pointer-events: none;
+            z-index: 0;
+          }
+
+          .service-detail::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 44px;
+            background: linear-gradient(
+              to bottom,
+              rgba(70, 81, 79, 0) 0%,
+              rgba(70, 81, 79, 0.35) 45%,
+              #46514f 100%
+            );
+            pointer-events: none;
+            z-index: 0;
+          }
+
+          .offers-section::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 44px;
+            background: linear-gradient(
+              to bottom,
+              rgba(93, 100, 137, 0) 0%,
+              rgba(93, 100, 137, 0.35) 45%,
+              #5d6489 100%
+            );
+            pointer-events: none;
+            z-index: 0;
+          }
+
+          .salon-section .container,
+          .technology-section .container,
+          .offers-section .container,
+          .gallery-section .container,
+          .service-detail .container,
+          .contact-section .container {
+            position: relative;
+            z-index: 1;
           }
 
           .offers-section .container {
@@ -1271,22 +1367,33 @@ export default function Layout() {
           }
 
           .gallery-target {
-            width: min(62vw, 220px);
-            margin-top: 80px;
+            width: min(74vw, 270px);
+            margin-top: 100px;
           }
 
           .gallery-nav {
-            width: 38px;
-            height: 38px;
-            font-size: 22px;
+            width: 52px;
+            height: 52px;
+            font-size: 28px;
+            top: 60%;
           }
 
           .gallery-nav-prev {
-            left: -48px;
+            left: -58px;
           }
 
           .gallery-nav-next {
-            right: -48px;
+            right: -58px;
+          }
+
+          /* Removes 1px seam between section backgrounds and footer gradient on mobile */
+          .footer {
+            margin-top: -1px;
+          }
+
+          .footer::before {
+            top: -42px;
+            height: 42px;
           }
         }
         
@@ -1519,6 +1626,39 @@ export default function Layout() {
           margin-left: 0;
           margin-right: 0;
         }
+
+        .footer-socials {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          margin-bottom: 12px;
+        }
+
+        .footer-social-link {
+          width: 36px;
+          height: 36px;
+          border-radius: 999px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          color: #e5efe9;
+          border: 1px solid rgba(255, 255, 255, 0.28);
+          background: rgba(255, 255, 255, 0.06);
+          transition: all 0.2s ease;
+        }
+
+        .footer-social-link:hover {
+          color: #ffffff;
+          background: rgba(255, 255, 255, 0.16);
+          border-color: rgba(255, 255, 255, 0.42);
+        }
+
+        .footer-social-icon {
+          width: 18px;
+          height: 18px;
+          display: block;
+        }
         
         .footer-bottom {
           padding-top: 10px;
@@ -1534,6 +1674,7 @@ export default function Layout() {
           flex-direction: column;
           align-items: center;
           text-align: center;
+          margin-top: 52px;
         }
 
         @media (max-width: 768px) {
@@ -1577,6 +1718,8 @@ export default function Layout() {
           
           .salon-content {
             grid-template-columns: 1fr 1fr;
+            padding-top: 0;
+            margin-top: -42px;
           }
 
           .service-detail-card {
@@ -1588,27 +1731,25 @@ export default function Layout() {
           }
           
           .technology-layout {
-            grid-template-columns: 1fr;
-            gap: 28px;
-            align-items: start;
-            max-width: 1100px;
+            max-width: 980px;
           }
 
           .tech-right {
-            min-height: 560px;
+            width: min(100%, 700px);
+            gap: 20px;
+            align-items: flex-start;
+            margin-top: clamp(60px, 7vw, 130px);
+            margin-left: clamp(-72px, -4.8vw, -10px);
           }
 
           .tech-video-card {
-            position: absolute;
-            top: 118px;
-            right: -12px;
-            padding: 0;
+            position: static;
+            justify-content: flex-start;
           }
 
           .tech-copy {
-            margin-top: 255px;
-            margin-left: -110px;
-            max-width: 660px;
+            margin: -28px 0 0;
+            max-width: 700px;
           }
           
           .offers-grid {
@@ -1658,6 +1799,24 @@ export default function Layout() {
         @media (min-width: 1024px) {
           .about-text h1 {
             font-size: 42px;
+          }
+
+          .tech-right {
+            position: relative;
+            padding-top: 56px;
+          }
+
+          .tech-video-card {
+            position: absolute;
+            top: -58px;
+            left: 866px;
+            width: auto;
+            justify-content: flex-start;
+          }
+
+          .tech-video-link {
+            min-width: 150px;
+            padding: 8px 18px;
           }
           
           .services-grid {
@@ -1807,10 +1966,36 @@ export default function Layout() {
                 индивидуален подход. Работим с модерна технология и безопасни
                 методи, за да постигнем естествени и трайни резултати.
               </p>
+              <div className="footer-socials">
+                <a
+                  href={SOCIAL_LINKS.facebook}
+                  className="footer-social-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                >
+                  <svg className="footer-social-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                    <path d="M14 8h2V5h-2c-2.2 0-4 1.8-4 4v2H8v3h2v5h3v-5h2.2l.8-3H13V9c0-.6.4-1 1-1z" />
+                  </svg>
+                </a>
+                <a
+                  href={SOCIAL_LINKS.instagram}
+                  className="footer-social-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                >
+                  <svg className="footer-social-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="3" width="18" height="18" rx="5" ry="5" />
+                    <circle cx="12" cy="12" r="4" />
+                    <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none" />
+                  </svg>
+                </a>
+              </div>
             </div>
 
             <div className="footer-bottom">
-              © {new Date().getFullYear()} DesiSlava Studio. Всички права
+              © 2025 DesiSlava Studio. Всички права
               запазени.
             </div>
           </div>

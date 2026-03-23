@@ -1809,7 +1809,7 @@ export default function Layout() {
           .tech-video-card {
             position: absolute;
             top: -58px;
-            left: 866px;
+            left: calc(100% + clamp(120px, 12vw, 166px));
             width: auto;
             justify-content: flex-start;
           }

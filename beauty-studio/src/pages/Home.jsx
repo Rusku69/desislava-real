@@ -5,10 +5,10 @@
         <div className="about-content">
           <div className="about-text">
             <div className="hero-logo-wrap">
-              <img src="/textlogo.png" alt="Desi Slava Studio" className="hero-logo" />
+              <img src="/textlogo.png" alt="DesiSlava Studio" className="hero-logo" />
             </div>
             <p>
-              Добре дошли в Desi Slava Studio - място, създадено със страст към красотата и внимание към детайла. 
+              Добре дошли в DesiSlava Studio - място, създадено със страст към красотата и внимание към детайла. 
               Нашето ново студио в сърцето на Пловдив е резултат от желанието ни да предложим нещо повече от стандартните козметични процедури.
             </p>
             <p>

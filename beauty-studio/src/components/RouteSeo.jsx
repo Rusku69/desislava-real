@@ -2,104 +2,95 @@ import { Helmet } from 'react-helmet-async'
 import { useLocation } from 'react-router-dom'
 import { services } from '../data/services'
 
-const SITE_NAME = 'Desi Slava Studio'
+const SITE_NAME = 'DesiSlava Studio'
 const FALLBACK_SITE_URL = 'https://desislavastudio.com'
 const SITE_URL = (import.meta.env.VITE_SITE_URL || FALLBACK_SITE_URL).replace(/\/+$/, '')
 const DEFAULT_IMAGE_PATH = '/textlogo.png'
 
-const sharedKeywords = [
-  'лазерна епилация',
-  'козметични процедури',
-  'естетични процедури',
-  'козметично студио',
-  'козметичен салон Пловдив',
-  'Desi Slava Studio'
-]
-
 const routeMeta = {
   '/': {
-    title: 'Desi Slava Studio | Лазерна епилация и естетични процедури в Пловдив',
+    title: 'DesiSlava Studio | Лазерна епилация и естетични процедури в Пловдив',
     description:
-      'Desi Slava Studio в Пловдив предлага лазерна епилация, фото подмладяване и персонализирани естетични терапии със SuperNova 3in1.',
+      'DesiSlava Studio в Пловдив предлага лазерна епилация, фото подмладяване и персонализирани естетични терапии със SuperNova 3in1.',
     keywords: ['лазерна епилация Пловдив', 'SuperNova 3in1', 'фото подмладяване']
   },
   '/salon': {
-    title: 'Салон | Desi Slava Studio Пловдив',
+    title: 'Салон | DesiSlava Studio Пловдив',
     description:
       'Разгледайте нашия козметичен салон в центъра на Пловдив - модерна обстановка, комфорт и професионална грижа.',
     keywords: ['козметичен салон', 'салон Пловдив', 'козметично студио Пловдив']
   },
   '/technology': {
-    title: 'Технология SuperNova 3in1 | Desi Slava Studio',
+    title: 'Технология SuperNova 3in1 | DesiSlava Studio',
     description:
       'SuperNova 3in1 съчетава няколко режима на работа за епилация, подмладяване и третиране на кожа с прецизни настройки и комфорт.',
     keywords: ['SuperNova 3in1', 'IPL технология', 'лазерна технология']
   },
   '/offers': {
-    title: 'Отстъпки и промоции | Desi Slava Studio',
+    title: 'Отстъпки и промоции | DesiSlava Studio',
     description:
-      'Вижте актуалните промоции и отстъпки за лазерна епилация и естетични процедури в Desi Slava Studio, Пловдив.',
+      'Вижте актуалните промоции и отстъпки за лазерна епилация и естетични процедури в DesiSlava Studio, Пловдив.',
     keywords: ['промоции лазерна епилация', 'козметични отстъпки', 'оферти Пловдив']
   },
   '/gallery': {
-    title: 'Галерия | Desi Slava Studio',
+    title: 'Галерия | DesiSlava Studio',
     description:
-      'Разгледайте снимки от Desi Slava Studio и резултати от процедурите за епилация, подмладяване и грижа за кожата.',
+      'Разгледайте снимки от DesiSlava Studio и резултати от процедурите за епилация, подмладяване и грижа за кожата.',
     keywords: ['галерия процедури', 'резултати лазерна епилация', 'снимки козметичен салон']
   },
   '/contact': {
-    title: 'Контакти | Desi Slava Studio Пловдив',
+    title: 'Контакти | DesiSlava Studio Пловдив',
     description:
-      'Свържете се с Desi Slava Studio в Пловдив. Телефон за записване: +359 88 689 6966. Адрес: ул. Брезовска 14.',
-    keywords: ['контакти козметичен салон', 'записване час Пловдив', 'Desi Slava Studio телефон']
+      'Свържете се с DesiSlava Studio в Пловдив. Телефон за записване: +359 88 689 6966. Адрес: ул. Брезовска 14.',
+    keywords: ['контакти козметичен салон', 'записване час Пловдив', 'DesiSlava Studio телефон']
   }
 }
 
 const serviceMetaById = {
   epilation: {
-    title: 'Лазерна епилация | Desi Slava Studio',
+    title: 'Лазерна епилация | DesiSlava Studio',
     description:
       'Професионална лазерна епилация в Пловдив с модерна 4D технология и система за охлаждане за максимален комфорт.',
     keywords: ['лазерна епилация', 'епилация Пловдив', '4D лазер']
   },
   rejuvenation: {
-    title: 'Фото подмладяване | Desi Slava Studio',
+    title: 'Фото подмладяване | DesiSlava Studio',
     description:
       'Фото подмладяване с IPL и NiR технологии за стегната, сияйна и по-равна кожа без дълъг възстановителен период.',
     keywords: ['фото подмладяване', 'IPL Пловдив', 'подмладяване на лице']
   },
   acne: {
-    title: 'Лечение на акне | Desi Slava Studio',
+    title: 'Лечение на акне | DesiSlava Studio',
     description:
       'Лечение на акне и проблемна кожа с персонализиран план, насочен към причините за възпаленията и контрола на себума.',
     keywords: ['лечение на акне', 'проблемна кожа', 'козметични процедури за акне']
   },
   peeling: {
-    title: 'Карбонов пилинг | Desi Slava Studio',
+    title: 'Карбонов пилинг | DesiSlava Studio',
     description:
       'Карбонов пилинг за дълбоко почистване, по-фина текстура и по-равномерен тен с щадяща неинвазивна процедура.',
     keywords: ['карбонов пилинг', 'почистване на лице', 'лазерен пилинг']
   },
   'laser-rejuvenation': {
-    title: 'Лазерно подмладяване | Desi Slava Studio',
+    title: 'Лазерно подмладяване | DesiSlava Studio',
     description:
       'Лазерно подмладяване за подобряване на плътност, тонус и текстура на кожата чрез индивидуален терапевтичен план.',
     keywords: ['лазерно подмладяване', 'подмладяване на кожа', 'естетични процедури']
   },
   mesotherapy: {
-    title: 'Лазерна мезотерапия | Desi Slava Studio',
+    title: 'Лазерна мезотерапия | DesiSlava Studio',
     description:
       'Безиглена лазерна мезотерапия за хидратация, еластичност и видимо освежена кожа без възстановителен период.',
     keywords: ['лазерна мезотерапия', 'безиглена мезотерапия', 'хидратация на кожа']
   },
   'pmu-corn': {
-    title: 'Премахване на перманентен грим и кокоши трън | Desi Slava Studio',
+    title: 'Премахване на перманентен грим и кокоши трън | DesiSlava Studio',
     description:
       'Прецизно лазерно премахване на перманентен грим и третиране на кокоши трън с внимателен индивидуален подход.',
     keywords: ['премахване на перманентен грим', 'кокоши трън', 'Nd YAG лазер']
   },
   'fungus-treatment': {
-    title: 'Лечение на гъбички по кожа и нокти | Desi Slava Studio',
+    title: 'Лечение на гъбички по кожа и нокти | DesiSlava Studio',
     description:
       'Лазерно лечение на гъбички по кожа и нокти с щадяща процедура, домашни насоки и контролни прегледи.',
     keywords: ['лечение на гъбички', 'гъбички по нокти', 'лазерна терапия']
@@ -118,10 +109,6 @@ function buildUrl(pathname) {
   const cleanPath = trimTrailingSlash(pathname || '/')
   if (cleanPath === '/') return `${SITE_URL}/`
   return `${SITE_URL}${cleanPath}`
-}
-
-function buildKeywords(keywords = []) {
-  return [...new Set([...keywords, ...sharedKeywords])].join(', ')
 }
 
 function sanitizeServiceTitle(rawTitle, serviceId) {
@@ -174,7 +161,7 @@ export default function RouteSeo() {
 
   const canonicalUrl = buildUrl(cleanPath)
   const imageUrl = buildUrl(DEFAULT_IMAGE_PATH)
-  const robots = meta.robots || 'index, follow'
+  const robots = meta.robots || 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
 
   const localBusinessSchema = {
     '@context': 'https://schema.org',
@@ -211,7 +198,6 @@ export default function RouteSeo() {
       <html lang="bg" />
       <title>{meta.title}</title>
       <meta name="description" content={meta.description} />
-      <meta name="keywords" content={buildKeywords(meta.keywords)} />
       <meta name="robots" content={robots} />
 
       <link rel="canonical" href={canonicalUrl} />

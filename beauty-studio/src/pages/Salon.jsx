@@ -23,7 +23,7 @@
               </p>
             </div>
             <div className="salon-image">
-              <img src="/salon.jpg" alt="Интериор на салона Desi Slava Studio" />
+              <img src="/salon.jpg" alt="Интериор на салона DesiSlava Studio" />
             </div>
           </div>
         </div>

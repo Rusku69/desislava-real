@@ -1683,7 +1683,7 @@ export default function Layout() {
           <Link to="/" className="logo">
             <img
               src="/textlogo.png"
-              alt="Desi Slava Studio"
+              alt="DesiSlava Studio"
               className="logo-image"
             />
           </Link>
@@ -1799,7 +1799,7 @@ export default function Layout() {
         <div className="container">
           <div className="footer-content">
             <div className="footer-logo">
-              <img src="/textlogo.png" alt="Desi Slava Studio" />
+              <img src="/textlogo.png" alt="DesiSlava Studio" />
             </div>
             <div className="footer-text">
               <p className="footer-info">
@@ -1810,7 +1810,7 @@ export default function Layout() {
             </div>
 
             <div className="footer-bottom">
-              © {new Date().getFullYear()} Desi Slava Studio. Всички права
+              © {new Date().getFullYear()} DesiSlava Studio. Всички права
               запазени.
             </div>
           </div>

@@ -7,6 +7,7 @@ import ServiceDetail from './pages/ServiceDetail'
 import Technology from './pages/Technology'
 import Offers from './pages/Offers'
 import Gallery from './pages/Gallery'
+import PriceList from './pages/PriceList'
 import Contact from './pages/Contact'
 import NotFound from './pages/NotFound'
 
@@ -19,6 +20,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="salon" element={<Salon />} />
           <Route path="services/:serviceId" element={<ServiceDetail />} />
+          <Route path="prices" element={<PriceList />} />
           <Route path="technology" element={<Technology />} />
           <Route path="offers" element={<Offers />} />
           <Route path="gallery" element={<Gallery />} />

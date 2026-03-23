@@ -1,5 +1,6 @@
 ﻿import { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import { useRef } from "react";
 import { services } from "../data/services";
 import stephenType from "../assets/StephenType.otf";
 import abramoRegular from "../assets/AbramoRegular.otf";
@@ -14,6 +15,7 @@ const navItems = [
 ];
 
 const galleryItem = { to: "/gallery", label: "Галерия" };
+const pricesItem = { to: "/prices", label: "Ценоразпис" };
 const SOCIAL_LINKS = {
   facebook: "https://www.facebook.com/desislava.stoichkova.98/",
   instagram: "https://www.instagram.com/desislavastudio/",
@@ -22,7 +24,9 @@ const SOCIAL_LINKS = {
 export default function Layout() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isDesktopServicesOpen, setIsDesktopServicesOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const desktopServicesRef = useRef(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -35,8 +39,20 @@ export default function Layout() {
   useEffect(() => {
     setIsMenuOpen(false);
     setIsServicesOpen(false);
+    setIsDesktopServicesOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handlePointerDown = (event) => {
+      if (!desktopServicesRef.current?.contains(event.target)) {
+        setIsDesktopServicesOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    return () => document.removeEventListener("mousedown", handlePointerDown);
+  }, []);
 
   const navLinkClass = ({ isActive }) => `nav-link${isActive ? " active" : ""}`;
   const mobileNavLinkClass = ({ isActive }) =>
@@ -45,16 +61,32 @@ export default function Layout() {
   const mobileCtaClass = ({ isActive }) =>
     `mobile-nav-cta${isActive ? " active" : ""}`;
   const isServicesPage = location.pathname.startsWith("/services");
+  const isPriceListPage = location.pathname === "/prices";
   const isOffersPage = location.pathname === "/offers";
+  const isGalleryPage = location.pathname === "/gallery";
+  const isTechnologyPage = location.pathname === "/technology";
   const pageClass = isServicesPage ? "services-page" : "";
-  const footerClass = `footer${isServicesPage ? " footer-services" : ""}${
+  const footerClass = `footer${(isServicesPage || isPriceListPage) ? " footer-services" : ""}${
     isOffersPage ? " footer-offers" : ""
+  }${isGalleryPage ? " footer-gallery" : ""}${
+    isTechnologyPage ? " footer-technology" : ""
   }`;
   const servicesActive = location.pathname.startsWith("/services/");
   const serviceLinks = services.map((service) => ({
     to: `/services/${service.id}`,
     label: service.title,
   }));
+  const closeServiceMenus = () => {
+    setIsServicesOpen(false);
+    setIsDesktopServicesOpen(false);
+    setIsMenuOpen(false);
+  };
+
+  const handleDesktopServicesBlur = (event) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) {
+      setIsDesktopServicesOpen(false);
+    }
+  };
 
   return (
     <div className={`app ${pageClass}`}>
@@ -245,8 +277,7 @@ export default function Layout() {
           transition: transform 0.2s ease;
         }
 
-        .services-nav:hover .services-trigger:after,
-        .services-nav:focus-within .services-trigger:after {
+        .services-nav.open .services-trigger:after {
           transform: rotate(180deg);
           border-top-color: #0f2b1d;
         }
@@ -271,8 +302,7 @@ export default function Layout() {
           z-index: 10;
         }
 
-        .services-nav:hover .services-dropdown,
-        .services-nav:focus-within .services-dropdown {
+        .services-nav.open .services-dropdown {
           opacity: 1;
           pointer-events: auto;
           transform: translateY(0);
@@ -667,23 +697,24 @@ export default function Layout() {
         .salon-content {
           display: grid;
           grid-template-columns: 1fr;
-          gap: 140px;
+          gap: clamp(36px, 7vw, 140px);
           align-items: center;
           justify-items: center;
-          padding-top: 40px;
+          width: 100%;
+          padding-top: clamp(28px, 4vw, 56px);
         }
 
         .salon-text {
           background: rgba(10, 20, 15, 0.48);
           border: 1px solid rgba(255, 255, 255, 0.12);
           border-radius: 10px;
-          padding: 48px 48px;
+          padding: clamp(28px, 4vw, 48px);
           box-shadow: var(--shadow-hover);
           text-align: center;
           color: #f5f7fa;
           max-width: 980px;
-          width: 110%;
-          margin-top: 8px;
+          width: min(100%, 980px);
+          margin-top: 0;
         }
 
         .salon-text h2 {
@@ -705,7 +736,7 @@ export default function Layout() {
           border-radius: 8px;
           overflow: hidden;
           box-shadow: var(--shadow);
-          width: 130%;
+          width: min(100%, 860px);
         }
         
         .salon-image img {
@@ -904,6 +935,296 @@ export default function Layout() {
           background: #ffffff;
           color: #0f2b1d;
         }
+
+        /* Ценоразпис секция */
+        .pricelist-section {
+          padding: 104px 0 64px;
+          background-image: linear-gradient(180deg, rgba(10, 20, 15, 0.72), rgba(10, 20, 15, 0.6)), url('/uslugi.png');
+          background-size: cover;
+          background-position: center;
+          min-height: 100vh;
+        }
+
+        .pricelist-section .container {
+          max-width: 1320px;
+        }
+
+        .pricelist-hero {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 18px;
+          margin-bottom: 20px;
+        }
+
+        .pricelist-intro,
+        .pricelist-note,
+        .pricelist-card,
+        .pricelist-cta {
+          background: rgba(10, 20, 15, 0.58);
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          border-radius: 16px;
+          box-shadow: var(--shadow-hover);
+        }
+
+        .pricelist-intro {
+          padding: clamp(22px, 3vw, 32px);
+          color: #f5f7fa;
+        }
+
+        .pricelist-intro h1 {
+          font-size: clamp(30px, 4.4vw, 44px);
+          line-height: 1.05;
+          margin-bottom: 12px;
+          text-align: center;
+        }
+
+        .pricelist-intro p,
+        .pricelist-note p,
+        .pricelist-card-head p,
+        .pricelist-row-copy p,
+        .pricelist-cta p {
+          color: #dfe9e3;
+          line-height: 1.7;
+        }
+
+        .pricelist-note {
+          padding: clamp(20px, 2.6vw, 28px);
+          color: #f5f7fa;
+        }
+
+        .pricelist-note h2 {
+          font-size: clamp(30px, 4.4vw, 44px);
+          line-height: 1.05;
+          margin-bottom: 12px;
+          text-align: center;
+        }
+
+        .pricelist-note-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: grid;
+          gap: 10px;
+        }
+
+        .pricelist-note-list li {
+          position: relative;
+          padding-left: 22px;
+          color: #e4eee7;
+          line-height: 1.6;
+        }
+
+        .pricelist-note-highlight-line {
+          display: block;
+          font-size: clamp(16px, 1.7vw, 21px);
+          font-weight: 700;
+          line-height: 1.45;
+          color: #f8fbf9;
+        }
+
+        .pricelist-note-highlight-line + .pricelist-note-highlight-line {
+          margin-top: 4px;
+        }
+
+        .pricelist-note-list li::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 9px;
+          width: 10px;
+          height: 10px;
+          border-radius: 999px;
+          background: #d7e7dd;
+          box-shadow: 0 0 0 4px rgba(215, 231, 221, 0.12);
+        }
+
+        .pricelist-layout {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 18px;
+          align-items: start;
+        }
+
+        .pricelist-column {
+          display: grid;
+          gap: 18px;
+          align-content: start;
+        }
+
+        .pricelist-card {
+          padding: clamp(18px, 2.5vw, 24px);
+          color: #f5f7fa;
+        }
+
+        .pricelist-card-head {
+          margin-bottom: 16px;
+        }
+
+        .pricelist-card-subtitle {
+          display: block;
+          color: #c5d9ce;
+          font-size: 12px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          margin-bottom: 10px;
+          text-align: center;
+        }
+
+        .pricelist-card-subtitle.pricelist-card-subtitle-emphasis {
+          font-size: clamp(15px, 1.5vw, 18px);
+          font-weight: 700;
+          letter-spacing: 0.2em;
+          color: #e6efe9;
+        }
+
+        .pricelist-card-head h2 {
+          font-size: 24px;
+          margin-bottom: 8px;
+        }
+
+        .pricelist-rows {
+          display: grid;
+          gap: 0;
+        }
+
+        .pricelist-row {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 12px;
+          align-items: center;
+          padding: 14px 0;
+          border-top: 1px solid rgba(255, 255, 255, 0.12);
+          color: inherit;
+        }
+
+        .pricelist-row:first-child {
+          border-top: 0;
+          padding-top: 0;
+        }
+
+        .pricelist-row-copy h3 {
+          font-size: 16px;
+          margin-bottom: 0;
+          color: #f8fbf9;
+        }
+
+        .pricelist-row-copy p {
+          font-size: 13px;
+        }
+
+        .pricelist-price-stack {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 4px;
+        }
+
+        .pricelist-price-line {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 118px;
+          padding: 8px 12px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.14);
+          color: #f8fbf9;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 0.06em;
+          text-align: center;
+        }
+
+        .pricelist-callout {
+          margin-top: 16px;
+          padding: 12px 14px;
+          border-radius: 12px;
+          background: rgba(255, 255, 255, 0.09);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          color: #edf5f0;
+          line-height: 1.6;
+        }
+
+        .pricelist-group-grid {
+          display: grid;
+          gap: 16px;
+        }
+
+        .pricelist-group {
+          padding-top: 14px;
+          border-top: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .pricelist-group:first-child {
+          padding-top: 0;
+          border-top: 0;
+        }
+
+        .pricelist-group-title {
+          font-size: 16px;
+          color: #dbe7e0;
+          margin-bottom: 10px;
+        }
+
+        .pricelist-cta {
+          margin-top: 20px;
+          padding: clamp(18px, 2.5vw, 26px);
+          color: #f5f7fa;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .pricelist-cta-label {
+          color: #c8dace;
+          font-size: 12px;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          margin-bottom: 10px;
+        }
+
+        .pricelist-cta h2 {
+          font-size: clamp(22px, 3.2vw, 30px);
+          line-height: 1.1;
+        }
+
+        .pricelist-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .pricelist-action {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 48px;
+          padding: 12px 22px;
+          border-radius: 999px;
+          text-decoration: none;
+          font-weight: 700;
+          transition: all 0.2s ease;
+        }
+
+        .pricelist-action-primary {
+          background: rgba(245, 247, 250, 0.94);
+          color: #0f2b1d;
+          border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .pricelist-action-primary:hover {
+          background: #ffffff;
+        }
+
+        .pricelist-action-secondary {
+          background: rgba(255, 255, 255, 0.08);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          color: #f6fbf8;
+        }
+
+        .pricelist-action-secondary:hover {
+          background: rgba(255, 255, 255, 0.14);
+        }
         
         /* Технология секция */
         .technology-section {
@@ -912,6 +1233,10 @@ export default function Layout() {
           background-size: cover;
           background-position: center;
           min-height: 110vh;
+        }
+
+        .technology-section .container {
+          max-width: 1320px;
         }
 
         .technology-bg {
@@ -928,9 +1253,9 @@ export default function Layout() {
 
         .technology-layout {
           display: flex;
-          justify-content: flex-start;
+          justify-content: flex-end;
           align-items: flex-start;
-          max-width: 980px;
+          max-width: 1320px;
           margin: 0 auto;
           width: 100%;
         }
@@ -938,7 +1263,7 @@ export default function Layout() {
         .tech-video-card {
           padding: 0;
           display: flex;
-          justify-content: center;
+          justify-content: flex-start;
           width: 100%;
           max-width: 100%;
           background: transparent;
@@ -952,12 +1277,13 @@ export default function Layout() {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          min-width: 180px;
-          padding: 12px 26px;
+          min-width: clamp(220px, 24vw, 300px);
+          padding: 16px 36px;
           border-radius: 999px;
           background: rgba(245, 247, 250, 0.92);
           color: #0f2b1d;
           text-decoration: none;
+          font-size: clamp(20px, 2.4vw, 26px);
           font-weight: 700;
           letter-spacing: 0.6px;
           border: 1px solid rgba(255, 255, 255, 0.45);
@@ -972,17 +1298,17 @@ export default function Layout() {
         .tech-right {
           display: flex;
           flex-direction: column;
-          gap: 18px;
-          width: min(100%, 720px);
+          gap: clamp(18px, 2.6vw, 28px);
+          width: min(100%, 820px);
           align-items: flex-start;
-          margin-top: clamp(44px, 7vw, 110px);
-          margin-left: clamp(8px, 2vw, 28px);
+          margin-top: clamp(40px, 5vw, 96px);
+          margin-left: 0;
         }
 
         .tech-copy {
-          padding: clamp(20px, 2.5vw, 30px);
+          padding: clamp(22px, 3vw, 34px);
           width: 100%;
-          max-width: 720px;
+          max-width: 820px;
           margin: 0;
         }
 
@@ -1208,19 +1534,52 @@ export default function Layout() {
 
           .salon-content {
             gap: 24px;
-            padding-top: 0;
+            padding-top: 16px;
           }
 
           .salon-image {
             order: -1;
             width: 100%;
-            max-width: 420px;
+            max-width: 500px;
           }
 
           .salon-text {
             width: 100%;
             max-width: 420px;
             padding: 28px 20px;
+          }
+
+          .pricelist-section {
+            padding: 88px 0 44px;
+            background-position: center top;
+          }
+
+          .pricelist-intro,
+          .pricelist-note,
+          .pricelist-card,
+          .pricelist-cta {
+            border-radius: 14px;
+          }
+
+          .pricelist-row {
+            grid-template-columns: 1fr;
+            gap: 10px;
+          }
+
+          .pricelist-price-stack {
+            align-items: flex-start;
+          }
+
+          .pricelist-price-line {
+            min-width: 0;
+          }
+
+          .pricelist-actions {
+            flex-direction: column;
+          }
+
+          .pricelist-action {
+            width: 100%;
           }
 
           .service-detail-card {
@@ -1238,14 +1597,19 @@ export default function Layout() {
             min-height: 110vh;
           }
 
+          .technology-layout {
+            justify-content: center;
+          }
+
           .tech-copy {
             margin: 0;
           }
 
           .tech-right {
-            width: min(100%, 420px);
-            align-items: center;
-            margin-top: 68px;
+            width: min(100%, 460px);
+            align-items: stretch;
+            gap: 18px;
+            margin-top: clamp(88px, 18vw, 132px);
             margin-left: 0;
           }
 
@@ -1264,6 +1628,7 @@ export default function Layout() {
           }
 
           .salon-section,
+          .pricelist-section,
           .technology-section,
           .offers-section,
           .gallery-section,
@@ -1293,6 +1658,7 @@ export default function Layout() {
             z-index: 0;
           }
 
+          .pricelist-section::after,
           .service-detail::after {
             content: '';
             position: absolute;
@@ -1328,6 +1694,7 @@ export default function Layout() {
           }
 
           .salon-section .container,
+          .pricelist-section .container,
           .technology-section .container,
           .offers-section .container,
           .gallery-section .container,
@@ -1361,29 +1728,29 @@ export default function Layout() {
           }
 
           .gallery-stage {
-            min-height: clamp(350px, 54vh, 500px);
+            min-height: clamp(404px, 60vh, 576px);
             justify-content: center;
             padding-right: 0;
           }
 
           .gallery-target {
-            width: min(74vw, 270px);
-            margin-top: 100px;
+            width: min(82vw, 312px);
+            margin-top: 128px;
           }
 
           .gallery-nav {
-            width: 52px;
-            height: 52px;
-            font-size: 28px;
+            width: 56px;
+            height: 56px;
+            font-size: 30px;
             top: 60%;
           }
 
           .gallery-nav-prev {
-            left: -58px;
+            left: -62px;
           }
 
           .gallery-nav-next {
-            right: -58px;
+            right: -62px;
           }
 
           /* Removes 1px seam between section backgrounds and footer gradient on mobile */
@@ -1587,6 +1954,79 @@ export default function Layout() {
         .footer.footer-offers::before {
           background: linear-gradient(to bottom, rgba(93, 100, 137, 0) 0%, rgba(93, 100, 137, 0.35) 45%, #5d6489 100%);
         }
+
+        .footer.footer-technology {
+          background: #061415;
+        }
+
+        .footer.footer-technology::before {
+          background: linear-gradient(to bottom, rgba(6, 20, 21, 0) 0%, rgba(6, 20, 21, 0.42) 45%, #061415 100%);
+        }
+
+        .footer.footer-technology .footer-tagline {
+          color: #d7e3fb;
+        }
+
+        .footer.footer-technology .footer-info {
+          color: #e1e9f6;
+        }
+
+        .footer.footer-technology .footer-social-link {
+          color: #eef4ff;
+          border-color: rgba(255, 255, 255, 0.26);
+          background: rgba(255, 255, 255, 0.08);
+        }
+
+        .footer.footer-technology .footer-social-link:hover {
+          color: #ffffff;
+          background: rgba(255, 255, 255, 0.18);
+          border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .footer.footer-technology .footer-bottom {
+          border-top-color: rgba(255, 255, 255, 0.14);
+          color: #cdd9ee;
+        }
+
+        .footer.footer-gallery {
+          background: #dcc9ef;
+          color: #392946;
+        }
+
+        .footer.footer-gallery::before {
+          background: linear-gradient(to bottom, rgba(220, 201, 239, 0) 0%, rgba(220, 201, 239, 0.62) 45%, #dcc9ef 100%);
+        }
+
+        .footer.footer-gallery .footer-tagline {
+          color: #6f4893;
+        }
+
+        .footer.footer-gallery .footer-info {
+          color: #523b68;
+        }
+
+        .footer.footer-gallery .footer-social-link {
+          color: #523b68;
+          border-color: rgba(82, 59, 104, 0.18);
+          background: rgba(255, 255, 255, 0.66);
+        }
+
+        .footer.footer-gallery .footer-social-link:hover {
+          color: #fff8fb;
+          background: rgba(111, 72, 147, 0.9);
+          border-color: rgba(111, 72, 147, 0.9);
+        }
+
+        .footer.footer-gallery .footer-bottom {
+          border-top-color: rgba(82, 59, 104, 0.18);
+          color: #694f82;
+        }
+
+        .footer.footer-gallery .footer-logo img {
+          filter:
+            drop-shadow(0 0 1px rgba(57, 41, 70, 0.62))
+            drop-shadow(0 6px 18px rgba(57, 41, 70, 0.26));
+        }
         
         .footer-content {
           text-align: center;
@@ -1716,10 +2156,26 @@ export default function Layout() {
             text-align: right;
           }
           
+          .salon-section .container {
+            max-width: 1320px;
+          }
+
           .salon-content {
-            grid-template-columns: 1fr 1fr;
-            padding-top: 0;
-            margin-top: -42px;
+            grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+            gap: clamp(36px, 5vw, 84px);
+            padding-top: clamp(40px, 5vw, 72px);
+            margin-top: 0;
+          }
+
+          .pricelist-hero {
+            grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+            align-items: stretch;
+          }
+
+          .pricelist-cta {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
           }
 
           .service-detail-card {
@@ -1731,15 +2187,15 @@ export default function Layout() {
           }
           
           .technology-layout {
-            max-width: 980px;
+            max-width: 1320px;
           }
 
           .tech-right {
-            width: min(100%, 700px);
-            gap: 20px;
+            width: min(100%, 820px);
+            gap: clamp(20px, 2.4vw, 30px);
             align-items: flex-start;
-            margin-top: clamp(60px, 7vw, 130px);
-            margin-left: clamp(-72px, -4.8vw, -10px);
+            margin-top: clamp(48px, 5vw, 104px);
+            margin-left: 0;
           }
 
           .tech-video-card {
@@ -1748,8 +2204,8 @@ export default function Layout() {
           }
 
           .tech-copy {
-            margin: -28px 0 0;
-            max-width: 700px;
+            margin: 0;
+            max-width: 820px;
           }
           
           .offers-grid {
@@ -1801,22 +2257,36 @@ export default function Layout() {
             font-size: 42px;
           }
 
+          .pricelist-layout {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr) minmax(0, 1fr);
+            gap: 20px;
+          }
+
           .tech-right {
-            position: relative;
-            padding-top: 56px;
+            position: static;
+            padding-top: 0;
+            margin-top: clamp(164px, 12vw, 232px);
+            margin-left: 0;
+            --tech-desktop-shift: clamp(-510px, -29vw, -350px);
           }
 
           .tech-video-card {
-            position: absolute;
-            top: -58px;
-            left: calc(100% + clamp(120px, 12vw, 166px));
-            width: auto;
-            justify-content: flex-start;
+            position: static;
+            top: auto;
+            left: auto;
+            width: 100%;
+            max-width: 820px;
+            margin-left: var(--tech-desktop-shift);
+            justify-content: center;
+          }
+
+          .tech-copy {
+            margin-left: var(--tech-desktop-shift);
           }
 
           .tech-video-link {
-            min-width: 150px;
-            padding: 8px 18px;
+            min-width: clamp(240px, 18vw, 320px);
+            padding: 16px 34px;
           }
           
           .services-grid {
@@ -1827,12 +2297,38 @@ export default function Layout() {
             gap: 38px;
           }
 
+          .gallery-stage {
+            min-height: clamp(600px, 76vh, 900px);
+          }
+
           .gallery-target {
-            width: min(28vw, 340px);
+            width: min(31vw, 390px);
+            margin-top: 108px;
+          }
+
+          .gallery-nav-prev {
+            left: -80px;
+          }
+
+          .gallery-nav-next {
+            right: -80px;
           }
           
           .map-container-large {
             height: 550px;
+          }
+        }
+
+        @media (min-width: 1024px) and (max-width: 1279px) {
+          .tech-right {
+            width: min(100%, 760px);
+            margin-top: clamp(152px, 12vw, 220px);
+            --tech-desktop-shift: clamp(-260px, -17vw, -150px);
+          }
+
+          .tech-copy,
+          .tech-video-card {
+            max-width: 760px;
           }
         }
       `}</style>
@@ -1853,9 +2349,15 @@ export default function Layout() {
                 {item.label}
               </NavLink>
             ))}
-            <div className="services-nav">
+            <div
+              ref={desktopServicesRef}
+              className={`services-nav${isDesktopServicesOpen ? " open" : ""}`}
+              onMouseEnter={() => setIsDesktopServicesOpen(true)}
+              onFocusCapture={() => setIsDesktopServicesOpen(true)}
+              onBlurCapture={handleDesktopServicesBlur}
+            >
               <NavLink
-                to={serviceLinks[0]?.to || "/services/epilation"}
+                to={pricesItem.to}
                 className={({ isActive }) =>
                   `nav-link services-trigger${
                     servicesActive || isActive ? " active" : ""
@@ -1863,7 +2365,7 @@ export default function Layout() {
                 }
                 end
               >
-                Услуги
+                Услуги и ценоразпис
               </NavLink>
               <div
                 className="services-dropdown"
@@ -1874,6 +2376,7 @@ export default function Layout() {
                   <NavLink
                     key={service.to}
                     to={service.to}
+                    onClick={closeServiceMenus}
                     className={({ isActive }) =>
                       `services-dropdown-link${isActive ? " active" : ""}`
                     }
@@ -1920,15 +2423,26 @@ export default function Layout() {
               aria-expanded={isServicesOpen}
               type="button"
             >
-              <span>Услуги</span>
+              <span>Услуги и ценоразпис</span>
               <span>▾</span>
             </button>
             {isServicesOpen && (
               <div className="mobile-services-dropdown">
+                <NavLink
+                  to={pricesItem.to}
+                  onClick={closeServiceMenus}
+                  className={({ isActive }) =>
+                    `mobile-services-link${isActive ? " active" : ""}`
+                  }
+                  end
+                >
+                  {pricesItem.label}
+                </NavLink>
                 {serviceLinks.map((service) => (
                   <NavLink
                     key={service.to}
                     to={service.to}
+                    onClick={closeServiceMenus}
                     className={({ isActive }) =>
                       `mobile-services-link${isActive ? " active" : ""}`
                     }

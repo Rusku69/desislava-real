@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 const promotions = [
   { id: 'promotion1', src: '/promotion1.png', alt: 'Промоция 1' },
-  { id: 'promotion2', src: '/promotion2.png', alt: 'Промоция 2' }
+  { id: 'promotion2', src: '/april1.png', alt: 'Промоция 2', position: '58% 50%' }
 ]
 
 export default function Offers() {
@@ -29,7 +29,11 @@ export default function Offers() {
                 aria-pressed={Boolean(expandedItems[promotion.id])}
               >
                 <div className="offer-image-container">
-                  <img src={promotion.src} alt={promotion.alt} />
+                  <img
+                    src={promotion.src}
+                    alt={promotion.alt}
+                    style={{ objectPosition: promotion.position ?? '50% 50%' }}
+                  />
                 </div>
               </button>
             ))}

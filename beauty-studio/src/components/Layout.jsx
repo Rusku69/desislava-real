@@ -17,7 +17,7 @@ const navItems = [
 const galleryItem = { to: "/gallery", label: "Галерия" };
 const pricesItem = { to: "/prices", label: "Ценоразпис" };
 const SOCIAL_LINKS = {
-  facebook: "https://www.facebook.com/desislava.stoichkova.98/",
+  facebook: "https://www.facebook.com/profile.php?id=61586497495857&locale=bg_BG",
   instagram: "https://www.instagram.com/desislavastudio/",
 };
 
@@ -1395,7 +1395,7 @@ export default function Layout() {
         }
 
         .offer-item.expanded img {
-          transform: scale(1.03);
+          transform: scale(1);
         }
         
         /* Галерия секция */
@@ -2390,7 +2390,7 @@ export default function Layout() {
               {galleryItem.label}
             </NavLink>
             <NavLink to="/contact" className={ctaClass}>
-              Запиши час
+              Контакти
             </NavLink>
           </nav>
 
@@ -2456,7 +2456,7 @@ export default function Layout() {
               {galleryItem.label}
             </NavLink>
             <NavLink to="/contact" className={mobileCtaClass}>
-              Запиши час
+              Контакти
             </NavLink>
           </div>
         )}

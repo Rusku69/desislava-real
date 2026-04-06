@@ -4,6 +4,7 @@ const SWIPE_THRESHOLD_DESKTOP = 50
 const SWIPE_THRESHOLD_MOBILE = 28
 
 const galleryImages = [
+  { src: '/gallery1.1.jpg', alt: 'Галерия 1.1', ratio: 1, fit: 'cover', scale: 1, posY: '50%' },
   { src: '/gallery1.png', alt: 'Галерия 1', ratio: 983 / 1310, fit: 'cover', scale: 1.06, posY: '50%' },
   { src: '/gallery2.png', alt: 'Галерия 2', ratio: 979 / 1305, fit: 'cover', scale: 1.06, posY: '50%' },
   { src: '/gallery3.png', alt: 'Галерия 3', ratio: 1536 / 2048, fit: 'cover', scale: 1.06, posY: '50%' },
